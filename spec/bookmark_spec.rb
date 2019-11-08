@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 require 'bookmark'
+require 'database_helpers'
 
 describe '.all' do
- it 'returns a list of bookmarks' do
+  it 'returns a list of bookmarks' do
     connection = PG.connect(dbname: 'bookmark_manager_test')
 
-    bookmark = Bookmark.create(url: "http://www.makersacademy.com", title: "Makers Academy")
-    Bookmark.create(url: "http://www.destroyallsoftware.com", title: "Destroy All Software")
-    Bookmark.create(url: "http://www.google.com", title: "Google")
+    bookmark = Bookmark.create(url: 'http://www.makersacademy.com', title: 'Makers Academy')
+    Bookmark.create(url: 'http://www.destroyallsoftware.com', title: 'Destroy All Software')
+    Bookmark.create(url: 'http://www.google.com', title: 'Google')
 
     bookmarks = Bookmark.all
 
@@ -22,9 +23,9 @@ end
 
 describe '.create' do
   it 'creates a new bookmark' do
-    bookmark = Bookmark.create(url: 'http://www.testbookmark.com', title: 'Test Bookmark').first
+    bookmark = Bookmark.create(url: 'http://www.testbookmark.com', title: 'Test Bookmark')
     persisted_data = persisted_data(id: bookmark.id)
-
+    puts bookmark
     expect(bookmark).to be_a Bookmark
     expect(bookmark.id).to eq persisted_data.first['id']
     expect(bookmark.title).to eq 'Test Bookmark'
